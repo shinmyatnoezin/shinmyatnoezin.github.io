@@ -106,7 +106,7 @@
         <br><b>THANK YOU FOR YOUR BUSINESS</b>
     </p>
 
-    <footer>WHO ARE YOU</footer>
+    <footer>Car Accessory Shop</footer>
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -123,16 +123,20 @@
                         <tr>
                             <td>Description</td>
                             <td>
-                                <select id="accessory-select">
-                                    <option value="50">Car Cover - $50</option>
-                                    <option value="20">Seat Covers - $20</option>
-                                    <option value="15">Phone Holder - $15</option>
+                                <select id="accessory-description">
+                                    <option value="Phone Cover">Phone Cover</option>
+                                    <option value="Seat Cover">Seat Cover</option>
+                                    <option value="Phone Holder">Phone Holder</option>
                                 </select>
                             </td>
                         </tr>
                         <tr>
                             <td>Quantity</td>
                             <td><input type="number" min="1" id="amount-input" value="1"></td>
+                        </tr>
+                        <tr>
+                            <td>Unit Price</td>
+                            <td><input type="number" min="0" step="0.01" id="unit-price-input" placeholder="Enter unit price"></td>
                         </tr>
                     </table>
                 </div>
@@ -148,18 +152,18 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 
     <script>
-        var quoationData = [];
+        var quotationData = [];
 
         function addItem() {
-            var selectedAccessory = $("#accessory-select option:selected").text().split(" - ")[0];
-            var selectedAccessoryValue = parseFloat($("#accessory-select").val());
+            var description = $("#accessory-description").val();
             var amount = parseInt($("#amount-input").val());
-            var price = selectedAccessoryValue * amount;
+            var unitPrice = parseFloat($("#unit-price-input").val());
+            var price = unitPrice * amount;
 
-            quoationData.push({
-                description: selectedAccessory,
+            quotationData.push({
+                description: description,
                 quantity: amount,
-                unitPrice: selectedAccessoryValue,
+                unitPrice: unitPrice,
                 amount: price
             });
             $('#exampleModal').modal('hide');
@@ -168,7 +172,7 @@
 
         function renderTable() {
             var subTotal = 0;
-            var dataRows = quoationData.map((e, i) => {
+            var dataRows = quotationData.map((e, i) => {
                 let amount = e.quantity * e.unitPrice;
                 subTotal += amount;
                 return `<tr class="data-row">
@@ -194,7 +198,7 @@
         }
 
         function deleteItem(index) {
-            quoationData.splice(index, 1);
+            quotationData.splice(index, 1);
             renderTable();
         }
 
